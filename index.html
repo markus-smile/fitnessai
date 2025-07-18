@@ -902,11 +902,12 @@
                     Bądź pierwszym, który wypróbuje przyszłość fitnessu z AI
                 </p>
                 
-                <form class="space-y-6" id="beta-form">
+                <form class="space-y-6" id="beta-form" action="https://formspree.io/f/xkgzgpdn" method="POST">
                     <div class="relative">
                         <input 
                             type="email" 
                             id="email" 
+                            name="email"
                             required
                             class="w-full px-6 py-4 rounded-lg text-gray-900 text-lg focus:outline-none focus:ring-4 focus:ring-accent/50 transition-all"
                             placeholder="Twój adres e-mail"
@@ -915,11 +916,16 @@
                     </div>
                     
                     <div class="flex items-center justify-center space-x-3 text-sm">
-                        <input type="checkbox" id="newsletter" class="rounded">
+                        <input type="checkbox" id="newsletter" name="newsletter" class="rounded">
                         <label for="newsletter" class="select-none">
-                            Chcę otrzymywać newsletter z poradami treningowymi
+                            Chcę otrzymywać newsletter z poradami treningowymi AI
                         </label>
                     </div>
+                    
+                    <!-- Hidden field for form identification -->
+                    <input type="hidden" name="_subject" value="Nowa rejestracja FitnessAI Beta">
+                    <input type="hidden" name="_next" value="https://fitnessai.pl/#success">
+                    <input type="hidden" name="source" value="Fitness AI Landing Page">
                     
                     <button 
                         type="submit"
@@ -967,10 +973,60 @@
                 
                 <div>
                     <h4 class="font-bold mb-4">Kontakt</h4>
-                    <ul class="space-y-2 text-gray-400">
+                    <ul class="space-y-2 text-gray-400 mb-6">
                         <li><i class="fas fa-envelope mr-2"></i>kontakt@fitnessai.pl</li>
                         <li><i class="fas fa-phone mr-2"></i>+48 123 456 789</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>Warszawa, Polska</li>
                     </ul>
+                    
+                    <!-- Quick Contact Form -->
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <h5 class="font-semibold mb-3 text-white">Szybki kontakt:</h5>
+                        <form action="https://formspree.io/f/xkgzgpdn" method="POST" class="space-y-3">
+                            <label class="block">
+                                <span class="text-sm text-gray-400">Twój email:</span>
+                                <input 
+                                    type="email" 
+                                    name="email" 
+                                    required
+                                    class="w-full mt-1 px-3 py-2 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+                                    placeholder="goodwaj@interia.pl"
+                                >
+                            </label>
+                            <label class="block">
+                                <span class="text-sm text-gray-400">Twoja wiadomość:</span>
+                                <textarea 
+                                    name="message" 
+                                    rows="3"
+                                    class="w-full mt-1 px-3 py-2 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+                                    placeholder="Wiadomość o Fitness AI..."
+                                ></textarea>
+                            </label>
+                            <input type="hidden" name="_subject" value="Kontakt z FitnessAI">
+                            <input type="hidden" name="source" value="Footer Contact Form">
+                            <button 
+                                type="submit"
+                                class="w-full bg-accent hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded text-sm transition-colors"
+                            >
+                                Wyślij
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5 class="font-semibold mb-2">Znajdź nas:</h5>
+                        <div class="flex space-x-3">
+                            <a href="#" title="Facebook FitnessAI" class="text-gray-400 hover:text-accent transition-colors">
+                                <i class="fab fa-facebook text-xl"></i>
+                            </a>
+                            <a href="#" title="Instagram FitnessAI" class="text-gray-400 hover:text-accent transition-colors">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                            <a href="#" title="YouTube FitnessAI" class="text-gray-400 hover:text-accent transition-colors">
+                                <i class="fab fa-youtube text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -1029,25 +1085,18 @@
             });
         });
 
-        // Form submission handling
+        // Form submission handling with Formspree
         document.getElementById('beta-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
+            // Let Formspree handle the submission naturally
+            // We can still do client-side validation
             const email = document.getElementById('email').value;
-            const newsletter = document.getElementById('newsletter').checked;
             
             // Basic email validation
             if (!email || !email.includes('@')) {
+                e.preventDefault();
                 alert('Proszę podać prawidłowy adres e-mail');
                 return;
             }
-            
-            // Simulate form submission
-            console.log('Form submitted:', { email, newsletter });
-            
-            // Show success message
-            document.getElementById('beta-form').style.display = 'none';
-            document.getElementById('success-message').classList.remove('hidden');
             
             // Google Analytics event (if implemented)
             if (typeof gtag !== 'undefined') {
@@ -1057,12 +1106,14 @@
                 });
             }
             
-            // In real implementation, you would send data to your backend
-            // fetch('/api/beta-signup', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({ email, newsletter })
-            // });
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Wysyłanie...';
+            submitBtn.disabled = true;
+            
+            // Note: Formspree will handle the actual submission
+            // and redirect to the _next URL or show their default success page
         });
 
         // Add scroll effect to navigation
@@ -1178,22 +1229,5 @@
         gtag('js', new Date());
         gtag('config', 'GA_MEASUREMENT_ID');
     </script> -->
-<!-- modify this form HTML and place wherever you want your form -->
-<form
-  action="https://formspree.io/f/xkgzgpdn"
-  method="POST"
->
-  <label>
-    Your email:
-    <input type="goodwaj@interia.pl" name="Fitnessai">
-  </label>
-  <label>
-    Your message:
-    <textarea name="message"></textarea>
-  </label>
-  <!-- your other form fields go here -->
-  <button type="submit">Send</button>
-</form>
-
 </body>
 </html>
