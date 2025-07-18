@@ -1,0 +1,33 @@
+User-agent: *
+Allow: /
+
+# SEO friendly paths
+Allow: /plany-treningowe-ai
+Allow: /fitness-ai
+Allow: /#jak-to-dziala
+Allow: /#korzysci
+Allow: /#zapisz-sie
+
+# Disallow admin areas (future use)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.git/
+
+# Sitemap location
+Sitemap: https://fitnessai.pl/sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Special instructions for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
